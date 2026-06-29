@@ -110,12 +110,6 @@ struct NMemoryAllocators
 typedef void NPanicHandler(const char *module, const char *file, long long line, const char *function, const char *description, NError error);
 typedef void NAlertHandler(const char *module, const char *file, long long line, const char *function, const char *format, ...);
 
-/*
-// general handler(s) might be equal to NULL to use default handler specified for each library.
-extern NPanicHandler *ncore_generalpanichandler;
-extern NAlertHandler *ncore_generalalerthandler;
-*/
-
 #ifdef __cplusplus
     }
 #endif
