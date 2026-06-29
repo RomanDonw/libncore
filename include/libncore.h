@@ -38,9 +38,83 @@
     #define LIBNCORE_API __attribute__((visibility("default")))
 #endif
 
+#include <stddef.h>
+
 #define LIBNCORE_ABI
 
+enum NError
+{
+    NError_Success = 0,
 
+    NError_NotInitialized,
+    NError_AlreadyInitialized,
+    NError_InternalUnknownError,
+    NError_InternalSizeMismatch,
+    NError_InternalVariableOverflow,
+    NError_ParsingAddressFailed,
+    NError_MutexAPIError,
+
+    NError_MemoryAllocationFailed, // ENOMEM/EAI_MEMORY
+    NError_Interrupted, // EINTR
+    NError_AccessDenied, // EACCES
+    NError_Fault, // EFAULT
+    NError_InsufficientBufferSize, // ERANGE
+    NError_IncorrectArgumentValue, // EINVAL
+    NError_TooManyOpenedSockets, // EMFILE
+    NError_WouldBlock, // EAGAIN/EWOULDBLOCK
+    NError_OperationInProgress, // EINPROGRESS
+    NError_InExecutionProcess, // EALREADY
+    NError_UnsupportedAddressFamily, // EAFNOSUPPORT
+    NError_UnsupportedProtocol, // EPROTONOSUPPORT
+    NError_UnsupportedSocketType, // ESOCKTNOSUPPORT
+    NError_UnsupportedProtocolOption, // ENOPROTOOPT
+    NError_UnsupportedOperation, // EOPNOTSUPP
+    NError_AddressInUse, // EADDRINUSE
+    NError_AddressNotAvailable, // EADDRNOTAVAIL
+    NError_NetworkUnreachable, // ENETUNREACH
+    NError_NetworkDown, // ENETDOWN
+    NError_NetworkReset, // ENETRESET
+    NError_ConnectionReset, // ECONNRESET
+    NError_ConnectionRefused, // ECONNREFUSED
+    NError_ConnectionAborted, // ECONNABORTED
+    NError_ConnectionTimedOut, // ETIMEDOUT
+    NError_NotConnected, // ENOTCONN
+    NError_AlreadyConnected, // EISCONN
+    NError_InvalidDescriptor, // EBADF
+    NError_NoSpaceLeft, // ENOSPC
+    NError_SystemBufferOverflowed, // ENOBUFS
+    NError_CannotTranslateName, // ELOOP
+    NError_DestinationAddressRequired, // EDESTADDRREQ
+    NError_NameTooLong, // ENAMETOOLONG
+    NError_BadFlags, // (EAI_BADFLAGS)
+    NError_TooManyProcesses, // EPROCLIM
+    NError_DNSTemporaryError, // EAI_AGAIN
+    NError_DNSHostNotFound, // EAI_NONAME
+    NError_DNSUnsupportedServiceName, // EAI_SERVICE
+    NError_DNSFailure, // EAI_FAIL
+
+    // Windows-specific:
+    NError_NetworkSystemNotReady, // WSASYSNOTREADY
+    NError_WSAVersionNotSupported, // WSAVERNOTSUPPORTED
+} typedef NError;
+
+// memory allocators must work same as in <stdlib.h>. 
+struct NMemoryAllocators
+{
+    void *(*malloc)(size_t);
+    void *(*realloc)(void *, size_t); // must be safe for NULL.
+    void (*free)(void *); // must be safe for NULL.
+} typedef NMemoryAllocators;
+
+// 'error' parameter is optional (equals NError_Success if true value not present).
+typedef void NPanicHandler(const char *module, const char *file, long long line, const char *function, const char *description, NError error);
+typedef void NAlertHandler(const char *module, const char *file, long long line, const char *function, const char *format, ...);
+
+/*
+// general handler(s) might be equal to NULL to use default handler specified for each library.
+extern NPanicHandler *ncore_generalpanichandler;
+extern NAlertHandler *ncore_generalalerthandler;
+*/
 
 #ifdef __cplusplus
     }
