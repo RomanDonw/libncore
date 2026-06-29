@@ -52,7 +52,6 @@ enum NError
     NError_InternalSizeMismatch,
     NError_InternalVariableOverflow,
     NError_ParsingAddressFailed,
-    NError_MutexAPIError,
 
     NError_MemoryAllocationFailed, // ENOMEM/EAI_MEMORY
     NError_Interrupted, // EINTR
@@ -60,7 +59,7 @@ enum NError
     NError_Fault, // EFAULT
     NError_InsufficientBufferSize, // ERANGE
     NError_IncorrectArgumentValue, // EINVAL
-    NError_TooManyOpenedSockets, // EMFILE
+    NError_TooManyOpenedDescriptors, // EMFILE
     NError_WouldBlock, // EAGAIN/EWOULDBLOCK
     NError_OperationInProgress, // EINPROGRESS
     NError_InExecutionProcess, // EALREADY
@@ -92,6 +91,8 @@ enum NError
     NError_DNSHostNotFound, // EAI_NONAME
     NError_DNSUnsupportedServiceName, // EAI_SERVICE
     NError_DNSFailure, // EAI_FAIL
+    NError_MutexBusy, // EBUSY
+    NError_MutexDeadlock, // EDEADLOCK
 
     // Windows-specific:
     NError_NetworkSystemNotReady, // WSASYSNOTREADY
@@ -109,6 +110,8 @@ struct NMemoryAllocators
 // 'error' parameter is optional (equals NError_Success if true value not present).
 typedef void NPanicHandler(const char *module, const char *file, long long line, const char *function, const char *description, NError error);
 typedef void NAlertHandler(const char *module, const char *file, long long line, const char *function, const char *format, ...);
+
+LIBNCORE_API const char * LIBNCORE_ABI ncore_strerror(NError errorcode);
 
 #ifdef __cplusplus
     }
