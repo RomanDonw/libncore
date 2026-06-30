@@ -56,6 +56,7 @@ enum NError
     NError_MemoryAllocationFailed, // ENOMEM/EAI_MEMORY
     NError_Interrupted, // EINTR
     NError_AccessDenied, // EACCES
+    NError_OperationNotPermitted, // EPERM
     NError_Fault, // EFAULT
     NError_InsufficientBufferSize, // ERANGE
     NError_IncorrectArgumentValue, // EINVAL

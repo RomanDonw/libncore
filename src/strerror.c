@@ -157,6 +157,9 @@ const char *ncore_strerror(NError errorcode)
         case NError_MutexDeadlock:
             return "mutex deadlock";
 
+        case NError_OperationNotPermitted:
+            return "operation not permitted";
+
         default:
             return NULL;
     }
