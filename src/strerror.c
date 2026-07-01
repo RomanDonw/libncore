@@ -6,7 +6,7 @@
 
 #include "libncore.h"
 
-const char *ncore_strerror(NError errorcode)
+const char *n_strerror(NError errorcode)
 {
     switch (errorcode)
     {

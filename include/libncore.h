@@ -108,11 +108,11 @@ struct NMemoryAllocators
     void (*free)(void *); // must be safe for NULL.
 } typedef NMemoryAllocators;
 
-// 'error' parameter is optional (equals NError_Success if true value not present).
+// 'error' parameter is optional (equals NError_Success if 'true' value not present).
 typedef void NPanicHandler(const char *module, const char *file, long long line, const char *function, const char *description, NError error);
 typedef void NAlertHandler(const char *module, const char *file, long long line, const char *function, const char *format, ...);
 
-LIBNCORE_API const char * LIBNCORE_ABI ncore_strerror(NError errorcode);
+LIBNCORE_API const char * LIBNCORE_ABI n_strerror(NError errorcode);
 
 #ifdef __cplusplus
     }
