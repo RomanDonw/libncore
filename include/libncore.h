@@ -17,22 +17,18 @@
 #endif
 
 #ifdef LIBNCORE_OS_WINDOWS
-    #ifdef LIBNCORE_STATIC
-        #ifdef _MSC_VER
+    #ifdef _MSC_VER
+        #ifdef LIBNCORE_STATIC
             #define LIBNCORE_API
         #else
-            #define LIBNCORE_API __attribute__((visibility("default")))
-        #endif
-    #else
-        #ifdef _MSC_VER
             #ifdef LIBNCORE_EXPORT
                 #define LIBNCORE_API __declspec(dllexport)
             #else
                 #define LIBNCORE_API __declspec(dllimport)
             #endif
-        #else
-            #define LIBNCORE_API __attribute__((visibility("default")))
         #endif
+    #else
+        #define LIBNCORE_API __attribute__((visibility("default")))
     #endif
 #else
     #define LIBNCORE_API __attribute__((visibility("default")))
