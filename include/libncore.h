@@ -35,6 +35,7 @@
 #endif
 
 #include <stddef.h>
+#include <stdbool.h>
 
 #define LIBNCORE_ABI
 
@@ -48,6 +49,9 @@ enum NError
     NError_InternalSizeMismatch,
     NError_InternalVariableOverflow,
     NError_ParsingAddressFailed,
+    NError_DependencyNotInitialized,
+    NError_ElementAlreadyExist,
+    NError_ElementNotExist,
 
     NError_MemoryAllocationFailed, // ENOMEM/EAI_MEMORY
     NError_Interrupted, // EINTR
@@ -109,6 +113,21 @@ typedef void NPanicHandler(const char *module, const char *file, long long line,
 typedef void NAlertHandler(const char *module, const char *file, long long line, const char *function, const char *format, ...);
 
 LIBNCORE_API const char * LIBNCORE_ABI n_strerror(NError errorcode);
+
+typedef struct NUnorderedSet NUnorderedSet;
+
+// set allocators to NULL to use default allocators (from <stdlib.h>).
+LIBNCORE_API NError LIBNCORE_ABI n_unorderedset_create(NUnorderedSet **set, NMemoryAllocators allocators, size_t elementsize);
+LIBNCORE_API void LIBNCORE_ABI n_unorderedset_destroy(NUnorderedSet *set);
+
+LIBNCORE_API bool LIBNCORE_ABI n_unorderedset_haselement(const NUnorderedSet *set, const void *element);
+LIBNCORE_API NError LIBNCORE_ABI n_unorderedset_addelement(NUnorderedSet *set, const void *element);
+LIBNCORE_API NError LIBNCORE_ABI n_unorderedset_removeelement(NUnorderedSet *set, const void *element);
+LIBNCORE_API void LIBNCORE_ABI n_unorderedset_clear(NUnorderedSet *set);
+
+LIBNCORE_API NMemoryAllocators LIBNCORE_ABI n_unorderedset_getallocators(const NUnorderedSet *set);
+LIBNCORE_API size_t LIBNCORE_ABI n_unorderedset_getelementsize(const NUnorderedSet *set);
+LIBNCORE_API size_t LIBNCORE_ABI n_unorderedset_getelementscount(const NUnorderedSet *set);
 
 #ifdef __cplusplus
     }

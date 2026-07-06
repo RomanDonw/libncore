@@ -160,6 +160,15 @@ const char *n_strerror(NError errorcode)
         case NError_OperationNotPermitted:
             return "operation not permitted";
 
+        case NError_DependencyNotInitialized:
+            return "dependency not initialized";
+
+        case NError_ElementAlreadyExist:
+            return "element already exist";
+
+        case NError_ElementNotExist:
+            return "element not exist";
+
         default:
             return NULL;
     }
