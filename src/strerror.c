@@ -169,6 +169,9 @@ const char *n_strerror(NError errorcode)
         case NError_ElementNotExist:
             return "element not exist";
 
+        case NError_InvalidIndex:
+            return "invalid index";
+
         default:
             return NULL;
     }

@@ -52,6 +52,7 @@ enum NError
     NError_DependencyNotInitialized,
     NError_ElementAlreadyExist,
     NError_ElementNotExist,
+    NError_InvalidIndex,
 
     NError_MemoryAllocationFailed, // ENOMEM/EAI_MEMORY
     NError_Interrupted, // EINTR
@@ -126,8 +127,8 @@ LIBNCORE_API NError LIBNCORE_ABI n_unorderedset_removeelement(NUnorderedSet *set
 LIBNCORE_API void LIBNCORE_ABI n_unorderedset_clear(NUnorderedSet *set);
 
 LIBNCORE_API NMemoryAllocators LIBNCORE_ABI n_unorderedset_getallocators(const NUnorderedSet *set);
+LIBNCORE_API size_t LIBNCORE_ABI n_unorderedset_getlength(const NUnorderedSet *set);
 LIBNCORE_API size_t LIBNCORE_ABI n_unorderedset_getelementsize(const NUnorderedSet *set);
-LIBNCORE_API size_t LIBNCORE_ABI n_unorderedset_getelementscount(const NUnorderedSet *set);
 
 #ifdef __cplusplus
     }

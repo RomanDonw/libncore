@@ -34,9 +34,16 @@ bool n_unorderedset_haselement(const NUnorderedSet *set, const void *element)
     return false;
 }
 
+NError n_unorderedset_getelement(const NUnorderedSet *set, size_t index, void *element)
+{
+    if (index >= set->len) return NError_InvalidIndex;
+    memcpy(element, set->data + set->elsize * index, set->elsize);
+    return NError_Success;
+}
+
 NError n_unorderedset_addelement(NUnorderedSet *set, const void *element)
 {
-    if (n_unorderedset_haselement(set, element)) return NError_ElementAlreadyExist;
+    for (size_t i = 0; i < set->len; i++) if (!memcmp(set->data + set->elsize * i, element, set->elsize)) return NError_ElementAlreadyExist;
 
     {
         void *new_data = set->allocs.realloc(set->data, (set->len + 1) * set->elsize);
@@ -49,9 +56,32 @@ NError n_unorderedset_addelement(NUnorderedSet *set, const void *element)
     return NError_Success;
 }
 
-NError n_unorderedset_removeelement(NUnorderedSet *set, const void *element);
-void n_unorderedset_clear(NUnorderedSet *set);
+NError n_unorderedset_removeelement(NUnorderedSet *set, const void *element)
+{
+    size_t index = 0;
+    bool found = false;
+    for (; index < set->len; index++) if (!memcmp(set->data + set->elsize * index, element, set->elsize)) { found = true; break; }
+    if (!found) return NError_ElementNotExist;
+    
+    if (index != (--set->len)) memcpy(set->data + set->elsize * index, set->data + set->elsize * set->len, set->elsize);
 
-NMemoryAllocators n_unorderedset_getallocators(const NUnorderedSet *set);
-size_t n_unorderedset_getelementsize(const NUnorderedSet *set);
-size_t n_unorderedset_getelementscount(const NUnorderedSet *set);
+    if (set->len)
+    {
+        void *new_data = set->allocs.realloc(set->data, set->len * set->elsize);
+        if (new_data) set->data = new_data;
+    }
+    else { set->allocs.free(set->data); set->data = NULL; }
+
+    return NError_Success;
+}
+
+void n_unorderedset_clear(NUnorderedSet *set)
+{
+    set->allocs.free(set->data);
+    set->data = NULL;
+    set->len = 0;
+}
+
+NMemoryAllocators n_unorderedset_getallocators(const NUnorderedSet *set) { return set->allocs; }
+size_t n_unorderedset_getelementsize(const NUnorderedSet *set) { return set->elsize; }
+size_t n_unorderedset_getlength(const NUnorderedSet *set) { return set->len; }
