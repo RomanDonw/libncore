@@ -122,6 +122,7 @@ LIBNCORE_API NError LIBNCORE_ABI n_unorderedset_create(NUnorderedSet **set, NMem
 LIBNCORE_API void LIBNCORE_ABI n_unorderedset_destroy(NUnorderedSet *set);
 
 LIBNCORE_API bool LIBNCORE_ABI n_unorderedset_haselement(const NUnorderedSet *set, const void *element);
+NError n_unorderedset_getelement(const NUnorderedSet *set, size_t index, void *element);
 LIBNCORE_API NError LIBNCORE_ABI n_unorderedset_addelement(NUnorderedSet *set, const void *element);
 LIBNCORE_API NError LIBNCORE_ABI n_unorderedset_removeelement(NUnorderedSet *set, const void *element);
 LIBNCORE_API void LIBNCORE_ABI n_unorderedset_clear(NUnorderedSet *set);
