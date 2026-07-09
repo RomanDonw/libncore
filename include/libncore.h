@@ -130,6 +130,8 @@ LIBNCORE_API NMemoryAllocators LIBNCORE_ABI n_unorderedset_getallocators(const N
 LIBNCORE_API size_t LIBNCORE_ABI n_unorderedset_getlength(const NUnorderedSet *set);
 LIBNCORE_API size_t LIBNCORE_ABI n_unorderedset_getelementsize(const NUnorderedSet *set);
 
+extern const char *n_panicmsg_mutexlock, *n_panicmsg_mutexunlock, *n_panicmsg_mutexdestroyduringlibrarycleanup;
+
 #ifdef __cplusplus
     }
 #endif
