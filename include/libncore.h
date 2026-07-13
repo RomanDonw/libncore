@@ -117,8 +117,10 @@ LIBNCORE_API const char * LIBNCORE_ABI n_strerror(NError errorcode);
 
 typedef struct NUnorderedSet NUnorderedSet;
 
-// set allocators to NULL to use default allocators (from <stdlib.h>).
-LIBNCORE_API NError LIBNCORE_ABI n_unorderedset_create(NUnorderedSet **set, NMemoryAllocators allocators, size_t elementsize);
+// [n_unorderedset_create]: set allocators to NULL to use default allocators (from <stdlib.h>).
+LIBNCORE_API NError LIBNCORE_ABI n_unorderedset_create(NUnorderedSet **set, const NMemoryAllocators *allocators, size_t elementsize);
+// [n_unorderedset_copy]: 'allocators' can be NULL to copy allocators from 'sourceset' and used only copy of value pointed by allocators.
+bool n_unorderedset_copy(NUnorderedSet **newset, const NUnorderedSet *sourceset, const NMemoryAllocators *allocators);
 LIBNCORE_API void LIBNCORE_ABI n_unorderedset_destroy(NUnorderedSet *set);
 
 LIBNCORE_API bool LIBNCORE_ABI n_unorderedset_haselement(const NUnorderedSet *set, const void *element);

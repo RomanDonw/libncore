@@ -11,17 +11,43 @@ struct NUnorderedSet
     size_t elsize;
 };
 
-NError n_unorderedset_create(NUnorderedSet **set, NMemoryAllocators allocators, size_t elementsize)
+NError n_unorderedset_create(NUnorderedSet **set, const NMemoryAllocators *allocators, size_t elementsize)
 {
-    NUnorderedSet *ret = allocators.malloc(sizeof(NUnorderedSet));
+    static const NMemoryAllocators defaultallocs =
+    {
+        .malloc = malloc,
+        .realloc = realloc,
+        .free = free
+    };
+    register const NMemoryAllocators *allocs = allocators ? allocators : &defaultallocs;
+
+    NUnorderedSet *ret = allocs->malloc(sizeof(NUnorderedSet));
     if (!ret) return NError_MemoryAllocationFailed;
 
-    ret->allocs = allocators;
+    ret->allocs = *allocs;
     ret->data = NULL;
     ret->len = 0;
     ret->elsize = elementsize;
 
     *set = ret;
+    return NError_Success;
+}
+
+bool n_unorderedset_copy(NUnorderedSet **newset, const NUnorderedSet *sourceset, const NMemoryAllocators *allocators)
+{
+    register const NMemoryAllocators *allocs = allocators ? allocators : &sourceset->allocs;
+
+    NUnorderedSet *ret = allocs->malloc(sizeof(NUnorderedSet));
+    if (!ret) return NError_MemoryAllocationFailed;
+
+    ret->data = allocs->malloc(sourceset->elsize * sourceset->len);
+    if (!ret->data) { allocs->free(ret); return NError_MemoryAllocationFailed; }
+
+    ret->allocs = *allocs;
+    ret->len = sourceset->len;
+    ret->elsize = sourceset->elsize;
+
+    *newset = ret;
     return NError_Success;
 }
 
