@@ -30,20 +30,20 @@ void n_unorderedset_destroy(NUnorderedSet *set)
 
 bool n_unorderedset_haselement(const NUnorderedSet *set, const void *element)
 {
-    for (size_t i = 0; i < set->len; i++) if (!memcmp(set->data + set->elsize * i, element, set->elsize)) return true;
+    for (size_t i = 0; i < set->len; i++) if (!memcmp((unsigned char *)set->data + set->elsize * i, element, set->elsize)) return true;
     return false;
 }
 
 NError n_unorderedset_getelement(const NUnorderedSet *set, size_t index, void *element)
 {
     if (index >= set->len) return NError_InvalidIndex;
-    memcpy(element, set->data + set->elsize * index, set->elsize);
+    memcpy(element, (unsigned char *)set->data + set->elsize * index, set->elsize);
     return NError_Success;
 }
 
 NError n_unorderedset_addelement(NUnorderedSet *set, const void *element)
 {
-    for (size_t i = 0; i < set->len; i++) if (!memcmp(set->data + set->elsize * i, element, set->elsize)) return NError_ElementAlreadyExist;
+    for (size_t i = 0; i < set->len; i++) if (!memcmp((unsigned char *)set->data + set->elsize * i, element, set->elsize)) return NError_ElementAlreadyExist;
 
     {
         void *new_data = set->allocs.realloc(set->data, (set->len + 1) * set->elsize);
@@ -51,7 +51,7 @@ NError n_unorderedset_addelement(NUnorderedSet *set, const void *element)
         set->data = new_data;
     }
 
-    memcpy(set->data + (set->len++) * set->elsize, element, set->elsize);
+    memcpy((unsigned char *)set->data + (set->len++) * set->elsize, element, set->elsize);
     
     return NError_Success;
 }
@@ -60,10 +60,10 @@ NError n_unorderedset_removeelement(NUnorderedSet *set, const void *element)
 {
     size_t index = 0;
     bool found = false;
-    for (; index < set->len; index++) if (!memcmp(set->data + set->elsize * index, element, set->elsize)) { found = true; break; }
+    for (; index < set->len; index++) if (!memcmp((unsigned char *)set->data + set->elsize * index, element, set->elsize)) { found = true; break; }
     if (!found) return NError_ElementNotExist;
     
-    if (index != (--set->len)) memcpy(set->data + set->elsize * index, set->data + set->elsize * set->len, set->elsize);
+    if (index != (--set->len)) memcpy((unsigned char *)set->data + set->elsize * index, (unsigned char *)set->data + set->elsize * set->len, set->elsize);
 
     if (set->len)
     {
