@@ -50,21 +50,23 @@ enum NError
     NError_InternalVariableOverflow,
     NError_ParsingAddressFailed,
     NError_DependencyNotInitialized,
-    NError_ElementAlreadyExist,
-    NError_ElementNotExist,
+    NError_NotExist,
     NError_InvalidIndex,
+    NError_ContextLocked,
 
     NError_MemoryAllocationFailed, // ENOMEM/EAI_MEMORY
     NError_Interrupted, // EINTR
     NError_AccessDenied, // EACCES
     NError_OperationNotPermitted, // EPERM
     NError_Fault, // EFAULT
-    NError_InsufficientBufferSize, // ERANGE
+    NError_Undefined, // EDOM
+    NError_NotRepresentable, // ERANGE
+    NError_InsufficientBufferSize, // (ERANGE)
     NError_IncorrectArgumentValue, // EINVAL
     NError_TooManyOpenedDescriptors, // EMFILE
     NError_WouldBlock, // EAGAIN/EWOULDBLOCK
     NError_OperationInProgress, // EINPROGRESS
-    NError_InExecutionProcess, // EALREADY
+    NError_Already, // EALREADY
     NError_UnsupportedAddressFamily, // EAFNOSUPPORT
     NError_UnsupportedProtocol, // EPROTONOSUPPORT
     NError_UnsupportedSocketType, // ESOCKTNOSUPPORT
@@ -88,14 +90,15 @@ enum NError
     NError_DestinationAddressRequired, // EDESTADDRREQ
     NError_NameTooLong, // ENAMETOOLONG
     NError_BadFlags, // (EAI_BADFLAGS)
-    NError_TooManyProcesses, // EPROCLIM
+    NError_ProcessLimitReached, // EPROCLIM
     NError_DNSTemporaryError, // EAI_AGAIN
     NError_DNSHostNotFound, // EAI_NONAME
     NError_DNSUnsupportedServiceName, // EAI_SERVICE
     NError_DNSFailure, // EAI_FAIL
-    NError_MutexBusy, // EBUSY
-    NError_MutexDeadlock, // EDEADLOCK
+    NError_Busy, // EBUSY
+    NError_Deadlock, // EDEADLOCK
     NError_NoSuchProcess, // ESRCH
+    NError_IllegalByteSequence, // EILSEQ
 
     // Windows-specific:
     NError_NetworkSystemNotReady, // WSASYSNOTREADY

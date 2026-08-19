@@ -34,6 +34,12 @@ const char *n_strerror(NError errorcode)
         case NError_ParsingAddressFailed:
             return "parsing address failed";
 
+        case NError_ContextLocked:
+            return "context locked";
+
+        case NError_Undefined:
+            return "undefined";
+
         case NError_Interrupted:
             return "operation interrupted";
 
@@ -42,6 +48,9 @@ const char *n_strerror(NError errorcode)
 
         case NError_Fault:
             return "fault";
+        
+        case NError_NotRepresentable:
+            return "not representable";
 
         case NError_InsufficientBufferSize:
             return "insufficient buffer size";
@@ -58,8 +67,8 @@ const char *n_strerror(NError errorcode)
         case NError_OperationInProgress:
             return "operation in progress";
 
-        case NError_InExecutionProcess:
-            return "processing task";
+        case NError_Already:
+            return "already";
 
         case NError_UnsupportedAddressFamily:
             return "unsupported address family";
@@ -127,8 +136,8 @@ const char *n_strerror(NError errorcode)
         case NError_NameTooLong:
             return "name too long";
 
-        case NError_TooManyProcesses:
-            return "too many processes";
+        case NError_ProcessLimitReached:
+            return "process limit reached";
 
         case NError_NetworkSystemNotReady:
             return "network system not ready";
@@ -151,11 +160,11 @@ const char *n_strerror(NError errorcode)
         case NError_DNSUnsupportedServiceName:
             return "(DNS) unsupported service name";
 
-        case NError_MutexBusy:
-            return "mutex busy";
+        case NError_Busy:
+            return "busy";
 
-        case NError_MutexDeadlock:
-            return "mutex deadlock";
+        case NError_Deadlock:
+            return "deadlock";
 
         case NError_OperationNotPermitted:
             return "operation not permitted";
@@ -163,17 +172,17 @@ const char *n_strerror(NError errorcode)
         case NError_DependencyNotInitialized:
             return "dependency not initialized";
 
-        case NError_ElementAlreadyExist:
-            return "element already exist";
-
-        case NError_ElementNotExist:
-            return "element not exist";
+        case NError_NotExist:
+            return "not exist";
 
         case NError_InvalidIndex:
             return "invalid index";
 
         case NError_NoSuchProcess:
             return "no such process";
+
+        case NError_IllegalByteSequence:
+            return "illegal byte sequence";
 
         default:
             return NULL;

@@ -75,7 +75,7 @@ NError n_unorderedset_getelement(const NUnorderedSet *set, size_t index, void *e
 
 NError n_unorderedset_addelement(NUnorderedSet *set, const void *element)
 {
-    for (size_t i = 0; i < set->len; i++) if (!memcmp((unsigned char *)set->data + set->elsize * i, element, set->elsize)) return NError_ElementAlreadyExist;
+    for (size_t i = 0; i < set->len; i++) if (!memcmp((unsigned char *)set->data + set->elsize * i, element, set->elsize)) return NError_Already;
 
     {
         void *new_data = set->allocs.realloc(set->data, (set->len + 1) * set->elsize);
@@ -93,7 +93,7 @@ NError n_unorderedset_removeelement(NUnorderedSet *set, const void *element)
     size_t index = 0;
     bool found = false;
     for (; index < set->len; index++) if (!memcmp((unsigned char *)set->data + set->elsize * index, element, set->elsize)) { found = true; break; }
-    if (!found) return NError_ElementNotExist;
+    if (!found) return NError_NotExist;
     
     if (index != (--set->len)) memcpy((unsigned char *)set->data + set->elsize * index, (unsigned char *)set->data + set->elsize * set->len, set->elsize);
 
