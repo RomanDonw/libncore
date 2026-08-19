@@ -172,6 +172,9 @@ const char *n_strerror(NError errorcode)
         case NError_InvalidIndex:
             return "invalid index";
 
+        case NError_NoSuchProcess:
+            return "no such process";
+
         default:
             return NULL;
     }

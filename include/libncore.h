@@ -95,6 +95,7 @@ enum NError
     NError_DNSFailure, // EAI_FAIL
     NError_MutexBusy, // EBUSY
     NError_MutexDeadlock, // EDEADLOCK
+    NError_NoSuchProcess, // ESRCH
 
     // Windows-specific:
     NError_NetworkSystemNotReady, // WSASYSNOTREADY
